@@ -24,11 +24,11 @@ jupyter-ml:
             # checks dispatch — otherwise they SKIP with `unknown verb "mcp"`. (box/<distro>
             # adopts the matching @github pin via reconcile later — the deliberate cross-repo
             # lag; the R10 bed loads the LOCAL candy via the superproject override.)
-            - plugin-mcp
+            - '@github.com/opencharly/plugin-mcp/candy/plugin-mcp:v2026.237.1425'
         candy:
-            - llama-cpp
-            - unsloth
-            - jupyter-mcp
+            - '@github.com/opencharly/layer-llama-cpp:v2026.237.457'
+            - '@github.com/opencharly/layer-unsloth:v2026.237.557'
+            - '@github.com/opencharly/layer-jupyter-mcp:v2026.237.556'
         env:
             NVIDIA_PYTHON_PROJECT: "~/.pixi"
             LD_LIBRARY_PATH: "/usr/lib64:$HOME/llama.cpp"
