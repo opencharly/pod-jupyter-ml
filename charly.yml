@@ -26,9 +26,9 @@ jupyter-ml:
             # lag; the R10 bed loads the LOCAL candy via the superproject override.)
             - plugin-mcp
         candy:
-            - llama-cpp
-            - unsloth
-            - jupyter-mcp
+            - '@github.com/opencharly/layer-llama-cpp:v2026.237.429'
+            - '@github.com/opencharly/layer-unsloth:v2026.237.429'
+            - '@github.com/opencharly/layer-jupyter-mcp:v2026.237.457'
         env:
             NVIDIA_PYTHON_PROJECT: "~/.pixi"
             LD_LIBRARY_PATH: "/usr/lib64:$HOME/llama.cpp"
