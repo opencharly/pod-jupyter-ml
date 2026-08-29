@@ -224,3 +224,4 @@ start-jupyter = "bash -c 'if [ -n \"${JUPYTER_TOKEN_FILE:-}\" ] && [ -f \"${JUPY
 
 [environments]
 default = { features = [], solve-group = "default" }
+# vllm deps pinned to the nightly-compatible set
