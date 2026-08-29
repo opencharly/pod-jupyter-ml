@@ -30,6 +30,9 @@ spacy-model-en_core_web_sm = "*"
 # ML/AI extensions
 tensorboard = "*"
 wandb = "*"
+# lark pinned to match the vllm nightly requirement (==1.2.2); the conda
+# rfc3987-syntax package requires lark>=1.2.2, so 1.2.2 satisfies both.
+lark = "==1.2.2"
 
 # Data science stack
 matplotlib = "*"
@@ -69,21 +72,21 @@ pyyaml = "*"
 # === PyTorch with CUDA 13.0 ===
 torch = { version = ">=2.10.0", index = "https://download.pytorch.org/whl/cu130" }
 torchvision = { version = "*", index = "https://download.pytorch.org/whl/cu130" }
-torchaudio = { version = "*", index = "https://download.pytorch.org/whl/cu130" }
+torchaudio = { version = "==2.10.0", index = "https://download.pytorch.org/whl/cu130" }  # vllm nightly requires torchaudio==2.10.0
 xformers = { version = "*", index = "https://download.pytorch.org/whl/cu130" }
 
 # === vLLM 0.19 runtime dependencies (wheel installed --no-deps in unsloth layer) ===
 blake3 = "*"
 cbor2 = "*"
-compressed-tensors = "*"
+compressed-tensors = "==0.14.0.1"  # vllm nightly requires compressed-tensors==0.14.0.1
 depyf = "*"
-flashinfer-python = ">=0.6.7"
+flashinfer-python = "==0.6.7"  # vllm nightly requires flashinfer-cubin==0.6.7
 ijson = "*"
 llguidance = "*"
 lm-format-enforcer = "*"
 mistral-common = ">=1.8.5"
 model-hosting-container-standards = ">=0.1.9, <1.0.0"
-numba = "*"
+numba = "==0.61.2"  # vllm nightly requires numba==0.61.2
 openai-harmony = ">=0.0.3"
 opencv-python-headless = ">=4.11.0"
 outlines-core = "*"
@@ -96,7 +99,7 @@ prometheus-fastapi-instrumentator = "*"
 ray = ">=2.48.0"
 watchfiles = "*"
 xgrammar = ">=0.1.32"
-lark = ">=1.2.2"
+lark = "==1.2.2"  # vllm nightly requires lark==1.2.2
 pydantic-extra-types = "*"
 pycountry = "*"
 interegular = "*"
@@ -113,7 +116,7 @@ nvidia-cutlass-dsl = "*"
 # (pixi conda/PyPI resolver conflicts with conda-pinned importlib-metadata)
 
 # === HuggingFace Core ===
-transformers = ">=5.0.0rc1"
+transformers = ">=4.56.0,<5"  # vllm nightly requires transformers<5,>=4.56.0
 accelerate = "*"
 safetensors = ">=0.4.2"
 
@@ -221,3 +224,4 @@ start-jupyter = "bash -c 'if [ -n \"${JUPYTER_TOKEN_FILE:-}\" ] && [ -f \"${JUPY
 
 [environments]
 default = { features = [], solve-group = "default" }
+# vllm deps pinned to the nightly-compatible set
