@@ -1,7 +1,7 @@
 version: 2026.232.0520
 jupyter-ml:
     candy:
-        version: 2026.144.1531
+        version: 2026.243.0100
         description: |
             GPU JupyterLab serving notebooks plus a CRDT MCP endpoint, composing the llama.cpp + vLLM/unsloth ML stack.
             A Tier-2 GPU meta-layer that serves JupyterLab on port 8888 from the
@@ -14,8 +14,8 @@ jupyter-ml:
             env, the spaCy model, the quarto labextension, and the live notebook +
             MCP API — so being wrong is observable, not silent.
         require:
-            - '@github.com/opencharly/layer-cuda:v2026.235.2121'
-            - '@github.com/opencharly/layer-supervisord:v2026.235.2056'
+            - '@github.com/opencharly/layer-cuda:v2026.243.0408'
+            - '@github.com/opencharly/layer-supervisord:v2026.240.0121'
             # plugin-mcp is the OUT-OF-TREE plugin that serves the `mcp:` check verb
             # (the github.com/modelcontextprotocol/go-sdk MCP CLIENT lives there, not in
             # charly's core check surface). This candy AUTHORS `mcp:` checks, so requiring
@@ -26,9 +26,9 @@ jupyter-ml:
             # lag; the R10 bed loads the LOCAL candy via the superproject override.)
             - '@github.com/opencharly/plugin-mcp/candy/plugin-mcp:v2026.237.1425'
         candy:
-            - '@github.com/opencharly/layer-llama-cpp:v2026.237.457'
-            - '@github.com/opencharly/layer-unsloth:v2026.237.557'
-            - '@github.com/opencharly/layer-jupyter-mcp:v2026.237.556'
+            - '@github.com/opencharly/layer-llama-cpp:v2026.240.0201'
+            - '@github.com/opencharly/layer-unsloth:v2026.239.1643'
+            - '@github.com/opencharly/layer-jupyter-mcp:v2026.239.1633'
         env:
             NVIDIA_PYTHON_PROJECT: "~/.pixi"
             LD_LIBRARY_PATH: "/usr/lib64:$HOME/llama.cpp"
