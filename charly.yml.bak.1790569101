@@ -1,5 +1,7 @@
+version: 2026.232.0520
 jupyter-ml:
     candy:
+        version: 2026.243.0910
         description: |
             GPU JupyterLab serving notebooks plus a CRDT MCP endpoint, composing the llama.cpp + vLLM/unsloth ML stack.
             A Tier-2 GPU meta-layer that serves JupyterLab on port 8888 from the
@@ -22,7 +24,7 @@ jupyter-ml:
             # checks dispatch — otherwise they SKIP with `unknown verb "mcp"`. (box/<distro>
             # adopts the matching @github pin via reconcile later — the deliberate cross-repo
             # lag; the R10 bed loads the LOCAL candy via the superproject override.)
-            - '@github.com/opencharly/plugin-mcp/candy/plugin-mcp:v2026.250.0721'
+            - '@github.com/opencharly/plugin-mcp/candy/plugin-mcp:v2026.237.1425'
         candy:
             - '@github.com/opencharly/layer-llama-cpp:v2026.240.0201'
             - '@github.com/opencharly/layer-unsloth:v2026.239.1643'
@@ -132,6 +134,7 @@ jupyter-ml:
               exit_status: 0
               context:
                 - runtime
+
 jupyter-ml-skill:
     skill:
         name: jupyter-ml
@@ -143,9 +146,9 @@ jupyter-ml-skill:
             MUST be invoked before building, deploying, or troubleshooting the jupyter-ml box.
         content: |-
             # jupyter-ml -- GPU ML Jupyter with CRDT MCP
-
+            
             ## Box Definition
-
+            
             ```yaml
             jupyter-ml:
               base: nvidia
@@ -160,22 +163,22 @@ jupyter-ml-skill:
               platforms:
                 - linux/amd64
             ```
-
+            
             ## Candy Composition
-
+            
             The `jupyter-ml` candy is a Tier 2 environment-owning meta-layer that composes:
             - `llama-cpp` — llama.cpp prebuilt binaries + GGUF tools
             - `unsloth` — vLLM 0.19 cu130 inference engine + fine-tuning (unsloth + unsloth-zoo) + vLLM torch.compile patch
             - `jupyter-mcp` — CRDT MCP extension (fastmcp + jupyter_mcp package)
-
+            
             Additional candies from the box:
             - `agent-forwarding` — SSH/GPG agent forwarding
             - `notebook-templates` — Starter notebooks (data candy, seeds /workspace)
             - `dbus` — D-Bus session bus
             - `charly` — OpenCharly CLI
-
+            
             ## Base Chain
-
+            
             ```
             quay.io/fedora/fedora:43
             └── fedora
@@ -183,35 +186,35 @@ jupyter-ml-skill:
                     └── nvidia (NVIDIA drivers + container toolkit)
                         └── jupyter-ml
             ```
-
+            
             ## Ports
-
+            
             | Port | Service |
             |------|---------|
             | 8888 | JupyterLab + MCP endpoint at `/mcp` |
-
+            
             ## Volumes
-
+            
             | Name | Path | Purpose |
             |------|------|---------|
             | workspace | /workspace | Persistent notebook storage |
             | models | ~/.cache/huggingface | HuggingFace model cache (from unsloth sub-candy) |
-
+            
             ## Service Environment Integration
-
+            
             This box receives env_provide variables from infrastructure candies when they are deployed:
-
+            
             | Variable | Injected by | Value |
             |----------|------------|-------|
             | `OLLAMA_HOST` | `/charly-ollama:ollama` | `http://charly-ollama:11434` |
             | `PGHOST` | `/charly-infrastructure:postgresql` | `charly-postgresql` |
             | `PGPORT` | `/charly-infrastructure:postgresql` | `5432` |
             | `REDIS_URL` | `/charly-infrastructure:redis` or `/charly-infrastructure:valkey` | `redis://charly-<image>:6379` |
-
+            
             These variables are injected automatically into the container environment at `charly config` time when the corresponding service is deployed. No manual `-e` flags needed.
-
+            
             ## Key Capabilities
-
+            
             - **JupyterLab** with real-time collaboration (jupyter-collaboration, Y-CRDT)
             - **CRDT MCP Server** at `/mcp` — the tools for programmatic notebook access (server manages CRDT rooms invisibly; see `/charly-jupyter:jupyter-mcp` for the auto-attach + canonicalization design)
             - **PyTorch** >= 2.10.0 with CUDA 13.0
@@ -220,9 +223,9 @@ jupyter-ml-skill:
             - **LangChain** RAG stack (chromadb, faiss-cpu)
             - **Evaluation** tools (evidently, sacrebleu, rouge-score)
             - **Notebook templates** seeded into /workspace
-
+            
             ## Quick Start
-
+            
             ```bash
             charly box build jupyter-ml
             charly config jupyter-ml
@@ -232,9 +235,9 @@ jupyter-ml-skill:
             # JupyterLab: http://localhost:8888
             # MCP endpoint: http://localhost:8888/mcp
             ```
-
+            
             ## Verify
-
+            
             ```bash
             charly shell jupyter-ml -c "pixi run verify-pytorch"
             charly shell jupyter-ml -c "pixi run verify-vllm"
@@ -242,9 +245,9 @@ jupyter-ml-skill:
             charly shell jupyter-ml -c "pixi run verify-mcp"
             charly shell jupyter-ml -c "pixi run verify-collaboration"
             ```
-
+            
             ## Comparison with Other Jupyter Images
-
+            
             | | jupyter | jupyter-ml |
             |---|---|---|
             | Base | fedora | nvidia |
@@ -255,21 +258,21 @@ jupyter-ml-skill:
             | ML Stack | No | Full |
             | Volume | workspace | workspace + models |
             | Notebook dir | /workspace | /workspace |
-
+            
             ## Related Boxes
-
+            
             - `/charly-jupyter:jupyter-ml-notebook` — Same stack with fine-tuning notebooks
             - `/charly-jupyter:jupyter` — Lightweight variant (no CUDA, multi-arch)
             - `/charly-languages:python-ml` — ML base without Jupyter
             - **CachyOS variant** — `cachyos.jupyter-ml` is the CachyOS GPU sibling (built on the `cachyos.nvidia` GPU base) in the `opencharly/distro-cachyos` submodule. See `/charly-distros:cachyos`.
-
+            
             **MCP testing:** inherits 3 deploy-scope `mcp:` checks from the `jupyter-ml` candy (`ping`, `list-tools`, `call list_notebooks`). Run `charly check live jupyter-ml --filter mcp` to exercise them. See `/charly-build:charly-mcp-cmd`.
-
+            
             ## When to Use This Skill
-
+            
             MUST be invoked before building, deploying, configuring, or troubleshooting the jupyter-ml box.
-
+            
             ## Related
-
+            
             - `/charly-image:image` — image family umbrella (`candy:` image entries — those carrying `base:`/`from:` — in `charly.yml`, build/validate/inspect/list)
             - `/charly-build:build` — the embedded build vocabulary (distros, builders, init-systems)
