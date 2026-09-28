@@ -1,7 +1,5 @@
-version: 2026.232.0520
 jupyter-ml:
     candy:
-        version: 2026.243.0910
         description: |
             GPU JupyterLab serving notebooks plus a CRDT MCP endpoint, composing the llama.cpp + vLLM/unsloth ML stack.
             A Tier-2 GPU meta-layer that serves JupyterLab on port 8888 from the
