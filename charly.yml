@@ -142,3 +142,23 @@ jupyter-ml-skill:
             Full CUDA ML JupyterLab box with real-time collaboration and CRDT MCP server.
             Base: nvidia. Port 8888. GPU-accelerated ML training + collaborative notebooks.
             MUST be invoked before building, deploying, or troubleshooting the jupyter-ml box.
+
+# ---------------------------------------------------------------------------
+# The verb/schema skills this repo's own candy owns — routing only.
+#
+# Each node carries `name`/`family`/`owner` (plus `triggers:` where the skill
+# generates DISPATCHER.md rows). The prose is the skill FILE at
+# `<repo root>/.agents/skills/<name>/SKILL.md`, never an inline `description:`
+# or `content:` — an inline body that disagrees with its file is a hard error
+# in the marketplace generator. `family:` is the marketplace family the skill
+# was authored under, kept so every existing `/charly-<family>:<name>` address
+# still resolves; `owner:` names the candy whose command/kind surface the
+# skill documents. This candy composes no image, so these nodes add nothing to
+# any `ai.opencharly.skill` OCI label; the bodies reach consumers through the
+# generated marketplace corpus.
+# ---------------------------------------------------------------------------
+jupyter-ml-layer-skill:
+    skill:
+        name: jupyter-ml-layer
+        family: jupyter
+        owner: jupyter-ml
